@@ -74,7 +74,7 @@ try:
         key = cv2.waitKey(1) & 0xFF
         if key == ord('q') or key == 27:  # 'q' or ESC to quit
             break
-        if key == ord('p'):  # 'p' to save RGB-D data as .mat
+        if key == ord('s'):  # 'p' to save RGB-D data as .mat
             Depth = np.array(depth_image, dtype='f4')
             ColorBRG = np.array(color_image / 255, dtype='f4')
             Color = ColorBRG.copy()
