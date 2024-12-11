@@ -83,7 +83,9 @@ try:
             Dt = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
             scipy.io.savemat(f'RGBD_D455_{Dt}.mat', mdict={'Depth': Depth, 'Color': Color})
             print(f"Saved RGBD data as RGBD_D455_{Dt}.mat")
-            colorized = colorizer.process(aligned_frames)
+        if key == ord('a'):  # 保存 .ply 文件
+            Dt = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
+            colorized = colorizer.process(depth_frame)
             ply = rs.save_to_ply(f"RGBD_D455_{Dt}.ply")
             ply.set_option(rs.save_to_ply.option_ply_binary, True)
             ply.set_option(rs.save_to_ply.option_ply_normals, True)
