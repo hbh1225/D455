@@ -1,5 +1,5 @@
-import pyrealsense2 as rs
 import numpy as np
+import pyrealsense2 as rs
 import cv2
 import scipy.io
 import datetime
@@ -72,9 +72,9 @@ try:
 
         # Handle key events
         key = cv2.waitKey(1) & 0xFF
-        if key == ord('q') or key == 27:  # 'q' or ESC to quit
+        if key == ord('q') or key == 27:  # 按下 'q' 或 ESC 退出
             break
-        if key == ord('s'):  # 'p' to save RGB-D data as .mat
+        if key == ord('s'):  # 按下 's' 保存 RGB-D 数据为 .mat 文件
             Depth = np.array(depth_image, dtype='f4')
             ColorBRG = np.array(color_image / 255, dtype='f4')
             Color = ColorBRG.copy()
@@ -83,13 +83,14 @@ try:
             Dt = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
             scipy.io.savemat(f'RGBD_D455_{Dt}.mat', mdict={'Depth': Depth, 'Color': Color})
             print(f"Saved RGBD data as RGBD_D455_{Dt}.mat")
-        if key == ord('a'):  # 保存 .ply 文件
+
+        if key == ord('a'):  # 按下 'a' 保存点云为 .ply 文件
             Dt = datetime.datetime.now().strftime('%Y%m%d_%H%M%S')
-            colorized = colorizer.process(depth_frame)
             ply = rs.save_to_ply(f"RGBD_D455_{Dt}.ply")
             ply.set_option(rs.save_to_ply.option_ply_binary, True)
             ply.set_option(rs.save_to_ply.option_ply_normals, True)
-            ply.process(colorized)
+            # 将原先的 colorized 替换为 aligned_frames
+            ply.process(aligned_frames)
             print(f"Saved point cloud as RGBD_D455_{Dt}.ply")
 
 finally:
